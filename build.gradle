@@ -63,4 +63,6 @@ dependencies {
     // lombok은 생성자 자동 생성 및 게터 / 세터 자동 생성을 위한 프레임워크입니다.
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+
 }
