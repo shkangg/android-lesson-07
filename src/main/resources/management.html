@@ -1,0 +1,44 @@
+
+<html>
+<body>
+<h1> 유저 관리 페이지 <a href="/dashboard">(유저 대시보드로 이동)</a></h1>
+<h3><a href="/admin"> 관리자 대시보드로 이동 </a></h3>
+<ul id="userList">
+</ul>
+</body>
+<script>
+    async function removeUser(userId, successCallback) {
+        // api/v1/user/remove로 POST 요청을 보냅니다.
+        await fetch('/api/v1/user/remove', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userId: userId })
+        }).then(response => {
+            if (response.status === 200) {
+                successCallback();
+            }
+        });
+    }
+    (async () => {
+        const response = await fetch('/api/v1/user/list');
+        const result = await response.json();
+        result.forEach(userId => {
+            let li = document.createElement("li");
+            li.appendChild(document.createTextNode(userId));
+            let contentRemoveButton = document.createElement("span");
+            contentRemoveButton.innerHTML = "&nbsp;&nbsp;삭제하기";
+            contentRemoveButton.style.color = "red";
+            contentRemoveButton.style.cursor = "pointer";
+            contentRemoveButton.onclick = function () {
+                removeUser(userId, function () {
+                    window.location.reload();
+                });
+            };
+            li.appendChild(contentRemoveButton);
+            document.getElementById("userList").appendChild(li);
+        });
+    })();
+</script>
+</html>
